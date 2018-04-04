@@ -57,8 +57,12 @@ public class Main {
 				File file = jf.getSelectedFile();
 				if (file != null && file.isDirectory()) {
 					String directoryPath = file.getAbsolutePath();
-					HttpTool.downloadFile(downloadUrl, directoryPath);
-					JOptionPane.showMessageDialog(jFrame, "下载成功", "", JOptionPane.INFORMATION_MESSAGE);
+					if (HttpTool.downloadFile(downloadUrl, directoryPath)) {
+						JOptionPane.showMessageDialog(jFrame, "下载成功", "", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						JOptionPane.showMessageDialog(jFrame, "下载失败", "", JOptionPane.INFORMATION_MESSAGE);
+					}
+
 				}else {
 					JOptionPane.showMessageDialog(jFrame, "请输入本地下载目录", "", JOptionPane.WARNING_MESSAGE);
 				}

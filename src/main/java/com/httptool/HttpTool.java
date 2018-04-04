@@ -30,11 +30,12 @@ public class HttpTool {
 	}
 
 	/**
-	 * 获取文件流
+	 * 下载文件
 	 * @param fileUrl 文件名
 	 */
-	public static void downloadFile(String fileUrl, String savePath){
+	public static boolean downloadFile(String fileUrl, String savePath){
 		AtomicReference<HttpURLConnection> connection = new AtomicReference<>(null);
+		boolean isSuccess;
 		try {
 			 connection.set(createConnection(fileUrl, "GET"));
 			if (connection.get() == null){
@@ -46,11 +47,12 @@ public class HttpTool {
 			String[] urls = fileUrl.split("/");
 			savePath += urls[urls.length - 1];
 
-			FileTool.writeFile(savePath, inputStream);
-
+			isSuccess = FileTool.writeFile(savePath, inputStream);
+			return isSuccess;
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.err.println("连接请求失败！");
+			return false;
 		}
 	}
 
