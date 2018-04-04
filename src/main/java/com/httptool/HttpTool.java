@@ -56,6 +56,10 @@ public class HttpTool {
 	}
 
 
+	/**
+	 * 多文件上传
+	 * @param files 文件
+	 */
 	public static void uploadFiles(File[] files){
 		String url = "";
 		for (File file : files){
