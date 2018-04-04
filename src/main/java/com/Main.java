@@ -47,7 +47,7 @@ public class Main {
 			try {
 				String downloadUrl = inputText.getText();
 				if (downloadUrl==null || downloadUrl.trim().equals("")){
-					JOptionPane.showMessageDialog(jFrame, "请输入下载地址", "",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(jFrame, "请输入下载URL", "",JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				JFileChooser jf = new JFileChooser("D://");
@@ -58,6 +58,9 @@ public class Main {
 				if (file != null && file.isDirectory()) {
 					String directoryPath = file.getAbsolutePath();
 					HttpTool.downloadFile(downloadUrl, directoryPath);
+					JOptionPane.showMessageDialog(jFrame, "下载成功", "", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(jFrame, "请输入本地下载目录", "", JOptionPane.WARNING_MESSAGE);
 				}
 			} finally {
 				downloadButton.setEnabled(true);
