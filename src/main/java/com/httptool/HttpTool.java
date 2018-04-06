@@ -59,7 +59,6 @@ public class HttpTool {
 	 * @param files 文件
 	 */
 	public static void uploadFiles(File[] files){
-//		String url = "http://172.27.150.3:8095/file/42900400001/2018/04/05/";
 		String url = "http://localhost:8080/file";
 		for (File file : files){
 			uploadFile(file, url);
