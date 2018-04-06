@@ -77,33 +77,48 @@ public class HttpTool {
 		OutputStream outputStream = null;
 		FileInputStream inputStream = null;
 		try {
+			//获取HTTPURLConnection连接
 			connection = createConnection(url, "PUT");
+			//运行写入默认为false，置为true
 			connection.setDoOutput(true);
+			//禁用缓存
 			connection.setUseCaches(false);
+			//设置接收编码
 			connection.setRequestProperty("Accept-Charset", "utf-8");
+			//开启长连接可以持续传输
 			connection.setRequestProperty("Connection", "keep-alive");
+			//设置请求参数格式以及boundary分割线
 			connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+			//设置接收返回值的格式
 			connection.setRequestProperty("Accept", "application/json");
+			//开启连接
 			connection.connect();
 
+			//获取http写入流
 			outputStream = new DataOutputStream(connection.getOutputStream());
 
+			//分隔符头部
 			String header = twoHyphens + boundary + nextLine;
+			//分隔符参数设置
 			header += "Content-Disposition: form-data;name=\"file\";" + "filename=\"" + file.getName() + "\"" + nextLine + nextLine;
+			//写入输出流
 			outputStream.write(header.getBytes());
 
+			//读取文件并写入
 			inputStream = new FileInputStream(file);
 			byte[] bytes = new byte[1024];
 			int length;
 			while ((length = inputStream.read(bytes))!= -1){
 				outputStream.write(bytes, 0, length);
 			}
+			//文件写入完成后加回车
 			outputStream.write(nextLine.getBytes());
 
+			//写入结束分隔符
 			String footer = nextLine + twoHyphens + boundary + twoHyphens + nextLine;
 			outputStream.write(footer.getBytes());
 			outputStream.flush();
-
+			//文件上传完成
 			InputStream response = connection.getInputStream();
 			InputStreamReader reader = new InputStreamReader(response);
 			while (reader.read() != -1){
